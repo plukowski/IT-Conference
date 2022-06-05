@@ -1,9 +1,12 @@
 package com.plukowski.itconference.services;
 
+import com.plukowski.itconference.controllers.ParticipantController;
 import com.plukowski.itconference.models.Participant;
 import com.plukowski.itconference.models.Reservation;
 import com.plukowski.itconference.repositories.ParticipantRepository;
 import com.plukowski.itconference.repositories.ReservationRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,29 +20,41 @@ public class ParticipantService {
     ParticipantRepository participantRepository;
     @Autowired
     ReservationRepository reservationRepository;
-    public void insert(Participant participant){
-        participantRepository.save(participant);
-    }
-    public Participant findById(long id){
-        return participantRepository.findById(id).get();
-    }
-    public Participant findByLogin(String login){
-        return participantRepository.findByLogin(login);
-    }
-    public Participant findByEmail(String email){
-        return participantRepository.findByEmail(email);
-    }
-    public int updateEmail(String login, String email){
-        if(participantRepository.findByLogin(login) != null){
-            return participantRepository.updateEmail(login,email);
-        }
-        else{
-            return 0;
-        }
-    }
+    private static final Logger log = LoggerFactory.getLogger(ParticipantService.class);
+
     public List<Reservation> getUserReservations(String login){
         return reservationRepository.findByParticipantId(
                 participantRepository.findByLogin(login).getId()
         );
+    }
+
+    public long insertNewParticipant(Participant participant){
+        if(participantRepository.findByLogin(participant.getLogin()) != null){
+            log.error("Podany login jest już zajęty");
+            return -1;
+        }
+        else if(participantRepository.findByEmail(participant.getEmail())!= null){
+            log.error("Podany adres e-mail jest już zajęty");
+            return -2;
+        }
+        else{
+            log.info("Dodano nowego użytkownika");
+            return participantRepository.save(participant).getId();
+        }
+    }
+
+    public long changeParticipantEmail(Participant participant){
+        if(participantRepository.findByLogin(participant.getLogin()) == null){
+            log.error("Podany użytkownik nie istnieje");
+            return -1;
+        }
+        else if(participantRepository.findByEmail(participant.getEmail())!= null){
+            log.error("Podany adres e-mail jest już zajęty");
+            return -2;
+        }
+        else{
+            log.info("Zaktualizowano adres e-mail użytkownika "+participant.getLogin());
+            return participantRepository.updateEmail(participant.getLogin(),participant.getEmail());
+        }
     }
 }

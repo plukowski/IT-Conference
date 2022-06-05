@@ -12,35 +12,27 @@ public class Lecture {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private LocalDateTime startDateTime;
-    private LocalDateTime endDateTime;
+    private int period;
     private int subjectId;
+    private int slots;
 
     protected Lecture() {}
-    public Lecture(LocalDateTime startDateTime, LocalDateTime endDateTime, int subjectId){
-        this.startDateTime = startDateTime;
-        this.endDateTime = endDateTime;
+    public Lecture(int period, int subjectId){
+        this.period = period;
         this.subjectId = subjectId;
+        this.slots = 5;
     }
 
     public long getId() {
         return id;
     }
 
-    public LocalDateTime getStartDateTime() {
-        return startDateTime;
+    public int getPeriod() {
+        return period;
     }
 
-    public void setStartDateTime(LocalDateTime startDateTime) {
-        this.startDateTime = startDateTime;
-    }
-
-    public LocalDateTime getEndDateTime() {
-        return endDateTime;
-    }
-
-    public void setEndDateTime(LocalDateTime endDateTime) {
-        this.endDateTime = endDateTime;
+    public void setPeriod(int period) {
+        this.period = period;
     }
 
     public int getSubjectId() {
@@ -49,5 +41,13 @@ public class Lecture {
 
     public void setSubjectId(int subjectId) {
         this.subjectId = subjectId;
+    }
+
+    public int getSlots() {
+        return slots;
+    }
+
+    public void setSlots(int slots) {
+        this.slots = slots;
     }
 }
