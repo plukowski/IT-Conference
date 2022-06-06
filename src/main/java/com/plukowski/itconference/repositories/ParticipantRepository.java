@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface ParticipantRepository extends CrudRepository<Participant, Long> {
     Participant findByLogin(String login);

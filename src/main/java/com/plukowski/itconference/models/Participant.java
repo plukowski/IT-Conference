@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 @Entity
@@ -20,9 +19,10 @@ public class Participant {
     @Email
     private String email;
 
-    protected Participant(){}
+    protected Participant() {
+    }
 
-    public Participant(String login, String email){
+    public Participant(String login, String email) {
         this.login = login;
         this.email = email;
     }
@@ -45,5 +45,10 @@ public class Participant {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("User[login=%s, e-mail=%s]", this.login, this.email);
     }
 }

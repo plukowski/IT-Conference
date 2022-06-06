@@ -29,9 +29,9 @@ public class ParticipantService {
         List<Reservation> reservations = reservationRepository.findByParticipantId(
                 participantRepository.findByLogin(login).getId()
         );
-        String result = new String();
+        String result = "";
         for(Reservation reservation: reservations){
-            result += lectureRepository.findById(reservation.getLectureId()).toString();
+            result += lectureRepository.findById(reservation.getLectureId()).toString()+"\n";
         }
         return result;
     }
@@ -64,5 +64,13 @@ public class ParticipantService {
             log.info("Zaktualizowano adres e-mail użytkownika "+participant.getLogin());
             return participantRepository.updateEmail(participant.getLogin(),participant.getEmail());
         }
+    }
+
+    public String showUsers(){
+        String result = "";
+        for (Participant participant : participantRepository.findAll()) {
+            result += participant.toString()+"\n";
+        }
+        return  result;
     }
 }

@@ -38,4 +38,10 @@ public class ParticipantController {
         return participantService.getUserReservations(login);
         //TODO response
     }
+
+    //Wyświetlenie listy użytkowników
+    @GetMapping("/user/all")
+    public String showUsers(){
+        return participantService.showUsers();
+    }
 }
