@@ -12,29 +12,10 @@ import java.util.TreeMap;
 
 public class Schedule {
     //Mapowanie numeru jednostki do jej daty rozpoczęcia i zakończenia
-    private static final Map<Integer, ArrayList<LocalDateTime>> periods = new TreeMap<>();
-    static{
-        ArrayList<LocalDateTime> firstPeriodDateTime = new ArrayList<>();
-        firstPeriodDateTime.add(LocalDateTime.of(2021, Month.JUNE,1,10,0));
-        firstPeriodDateTime.add(LocalDateTime.of(2021, Month.JUNE,1,11,45));
-        periods.put(1,firstPeriodDateTime);
-        ArrayList<LocalDateTime> secondPeriodDateTime = new ArrayList<>();
-        secondPeriodDateTime.add(LocalDateTime.of(2021, Month.JUNE,1,12,0));
-        secondPeriodDateTime.add(LocalDateTime.of(2021, Month.JUNE,1,13,45));
-        periods.put(1,secondPeriodDateTime);
-        ArrayList<LocalDateTime> thirdPeriodDateTime = new ArrayList<>();
-        thirdPeriodDateTime.add(LocalDateTime.of(2021, Month.JUNE,1,14,0));
-        thirdPeriodDateTime.add(LocalDateTime.of(2021, Month.JUNE,1,15,45));
-        periods.put(1,thirdPeriodDateTime);
-    }
+    public static Map<Integer, ArrayList<LocalDateTime>> periods = new TreeMap<>();
 
-//    //Pierwsza jednostka
-//    public static LocalDateTime firstPeriodStart = LocalDateTime.of(2021, Month.JUNE,1,10,0);
-//    public static LocalDateTime firstPeriodEnd = LocalDateTime.of(2021, Month.JUNE,1,11,45);
-//    //Druga jednostka
-//    public static LocalDateTime secondPeriodStart = LocalDateTime.of(2021, Month.JUNE,1,12,0);
-//    public static LocalDateTime secondPeriodEnd = LocalDateTime.of(2021, Month.JUNE,1,13,45);
-//    //Trzecia jednostka
-//    public static LocalDateTime thirdPeriodStart = LocalDateTime.of(2021, Month.JUNE,1,14,0);
-//    public static LocalDateTime thirdPeriodEnd = LocalDateTime.of(2021, Month.JUNE,1,15,45);
+    //Mapowanie numeru tematu prelekcji do jego nazwy
+    public static Map<Integer, String> subjects = new TreeMap<>();
+
+
 }

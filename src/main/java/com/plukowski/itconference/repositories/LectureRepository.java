@@ -17,4 +17,8 @@ public interface LectureRepository extends CrudRepository<Lecture,Long> {
     @Transactional
     @Query("UPDATE Lecture l SET l.slots = l.slots-1 WHERE l.period = ?1 AND l.subjectId = ?2")
     int decrementSlots(int period, int subjectId);
+    @Modifying
+    @Transactional
+    @Query("UPDATE Lecture l SET l.slots = l.slots+1 WHERE l.period = ?1 AND l.subjectId = ?2")
+    int incrementSlots(int period, int subjectId);
 }

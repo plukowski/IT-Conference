@@ -34,7 +34,7 @@ public class ParticipantController {
 
     //Wyświetlenie rezerwacji użytkownika
     @GetMapping("/user")
-    public List<Reservation> getUserReservations(@RequestParam(value = "login") String login){
+    public String getUserReservations(@RequestParam(value = "login") String login){
         return participantService.getUserReservations(login);
         //TODO response
     }

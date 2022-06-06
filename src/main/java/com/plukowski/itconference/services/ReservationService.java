@@ -63,5 +63,20 @@ public class ReservationService {
                 return 0;
             }
         }
+
+    }
+    public int deleteReservation(int subjectId, int period, Participant participant){
+        participant = participantRepository.findByLogin(participant.getLogin());
+        int result = reservationRepository.deleteByParticipantIdAndLectureId(participant.getId(),
+                lectureRepository.findByPeriodAndSubjectId(period,subjectId).getId());
+        if(result > 0){
+            log.info("Odwołano rezerwację");
+            lectureRepository.incrementSlots(period,subjectId);
+            return result;
+        }
+        else{
+            log.error("Nie można odwołać rezerwacji");
+            return result;
+        }
     }
 }

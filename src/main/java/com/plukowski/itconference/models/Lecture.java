@@ -1,17 +1,24 @@
 package com.plukowski.itconference.models;
 
+import com.plukowski.itconference.Schedule;
+import org.springframework.format.annotation.NumberFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Lecture {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     private int period;
     private int subjectId;
     private int slots;
@@ -49,5 +56,12 @@ public class Lecture {
 
     public void setSlots(int slots) {
         this.slots = slots;
+    }
+
+    @Override
+    public String toString(){
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+        return Schedule.periods.get(this.period).get(0).format(formatter)+"-"+Schedule.periods.get(this.period).get(1).format(formatter)+" "+
+                Schedule.subjects.get(this.subjectId)+"\n";
     }
 }

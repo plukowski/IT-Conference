@@ -3,6 +3,7 @@ package com.plukowski.itconference.services;
 import com.plukowski.itconference.controllers.ParticipantController;
 import com.plukowski.itconference.models.Participant;
 import com.plukowski.itconference.models.Reservation;
+import com.plukowski.itconference.repositories.LectureRepository;
 import com.plukowski.itconference.repositories.ParticipantRepository;
 import com.plukowski.itconference.repositories.ReservationRepository;
 import org.slf4j.Logger;
@@ -20,12 +21,19 @@ public class ParticipantService {
     ParticipantRepository participantRepository;
     @Autowired
     ReservationRepository reservationRepository;
+    @Autowired
+    LectureRepository lectureRepository;
     private static final Logger log = LoggerFactory.getLogger(ParticipantService.class);
 
-    public List<Reservation> getUserReservations(String login){
-        return reservationRepository.findByParticipantId(
+    public String getUserReservations(String login){
+        List<Reservation> reservations = reservationRepository.findByParticipantId(
                 participantRepository.findByLogin(login).getId()
         );
+        String result = new String();
+        for(Reservation reservation: reservations){
+            result += lectureRepository.findById(reservation.getLectureId()).toString();
+        }
+        return result;
     }
 
     public long insertNewParticipant(Participant participant){
