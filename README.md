@@ -11,6 +11,7 @@ Uruchamiamy terminal w katalogu głównym projektu i wpisujemy polecenie
 
 > ./mvnw spring-boot:run
 
+Alternatywnie można pobrać najnowszy release i wykorzystać uruchamialny plik .jar  
   
   
    **PRZYKŁADOWE ZAPYTANIA:**
