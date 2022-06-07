@@ -20,9 +20,11 @@ public class LectureService {
     @Autowired
     ReservationRepository reservationRepository;
     private static final Logger log = LoggerFactory.getLogger(LectureService.class);
+
     public long insert(Lecture lecture){
         return lectureRepository.save(lecture).getId();
     }
+
     public String getAllLectures(){
         String result = "";
         for (Lecture lecture : lectureRepository.findAll()) {
@@ -30,6 +32,7 @@ public class LectureService {
         }
         return result;
     }
+
     public String getStats(int type) throws ExceptionWithMessage {
         long allParticipants = participantRepository.count();
         String result = "";

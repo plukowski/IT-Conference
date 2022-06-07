@@ -11,6 +11,7 @@ import java.util.List;
 public interface ParticipantRepository extends CrudRepository<Participant, Long> {
     Participant findByLogin(String login);
     Participant findByEmail(String email);
+
     @Modifying
     @Transactional
     @Query("UPDATE Participant p SET p.email = ?2 WHERE p.login = ?1")

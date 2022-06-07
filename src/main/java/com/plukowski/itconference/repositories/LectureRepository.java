@@ -12,10 +12,12 @@ public interface LectureRepository extends CrudRepository<Lecture,Long> {
     List<Lecture> findBySubjectId(int id);
     List<Lecture> findByPeriod(int period);
     Lecture findByPeriodAndSubjectId(int period, int subjectId);
+
     @Modifying
     @Transactional
     @Query("UPDATE Lecture l SET l.slots = l.slots-1 WHERE l.period = ?1 AND l.subjectId = ?2")
     int decrementSlots(int period, int subjectId);
+
     @Modifying
     @Transactional
     @Query("UPDATE Lecture l SET l.slots = l.slots+1 WHERE l.period = ?1 AND l.subjectId = ?2")

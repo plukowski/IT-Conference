@@ -30,6 +30,7 @@ public class ReservationService {
     @Autowired
     LectureRepository lectureRepository;
     private static final Logger log = LoggerFactory.getLogger(ReservationService.class);
+
     public void makeReservation(int subjectId, int period, Participant participant) throws ExceptionWithMessage {
         if(participantRepository.findByLogin(participant.getLogin()) == null){
             if(participantRepository.findByEmail(participant.getEmail()) == null){
@@ -89,6 +90,7 @@ public class ReservationService {
             throw new RuntimeException(e);
         }
     };
+
     public void deleteReservation(int subjectId, int period, Participant participant) throws ExceptionWithMessage {
         participant = participantRepository.findByLogin(participant.getLogin());
         int result = reservationRepository.deleteByParticipantIdAndLectureId(participant.getId(),

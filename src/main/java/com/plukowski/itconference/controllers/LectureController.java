@@ -19,10 +19,12 @@ public class LectureController {
     public ResponseEntity<String> handleException(ExceptionWithMessage exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
     @GetMapping("/lecture/all")
     public ResponseEntity<String> showAllLectures(){
         return new ResponseEntity<>(lectureService.getAllLectures(),HttpStatus.OK);
     }
+
     @GetMapping("/lecture/stats")
     public ResponseEntity<String> getStats(@RequestParam(value = "type") int type) throws ExceptionWithMessage {
         return new ResponseEntity<>(lectureService.getStats(type),HttpStatus.OK);
