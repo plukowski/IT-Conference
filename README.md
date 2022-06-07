@@ -6,6 +6,7 @@ Autor: Przemysław Łukowski
   
   **URUCHAMIANIE PROJEKTU:**  
   -
+Projekt wymaga narzędzia Maven, Spring Boot 2.7.0 i JDK obsługującego Java 11  
 Uruchamiamy terminal w katalogu głównym projektu i wpisujemy polecenie 
 
 > ./mvnw spring-boot:run
