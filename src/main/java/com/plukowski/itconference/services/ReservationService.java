@@ -84,6 +84,9 @@ public class ReservationService {
             if(Files.exists(path)){
                 Files.delete(path);
             }
+            else if(!Files.exists(Paths.get("notifications/"))){
+                Files.createDirectory(Paths.get("notifications"));
+            }
             Files.createFile(path);
             Files.writeString(path,notification,StandardCharsets.UTF_8);
         } catch (IOException e) {
