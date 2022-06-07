@@ -1,9 +1,8 @@
 package com.plukowski.itconference.controllers;
 
-import ch.qos.logback.core.pattern.SpacePadder;
+
 import com.plukowski.itconference.exceptions.ExceptionWithMessage;
 import com.plukowski.itconference.models.Participant;
-import com.plukowski.itconference.models.Reservation;
 import com.plukowski.itconference.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
