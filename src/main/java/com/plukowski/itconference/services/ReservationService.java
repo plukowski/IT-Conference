@@ -1,5 +1,6 @@
 package com.plukowski.itconference.services;
 
+import com.plukowski.itconference.Schedule;
 import com.plukowski.itconference.controllers.ParticipantController;
 import com.plukowski.itconference.models.Lecture;
 import com.plukowski.itconference.models.Participant;
@@ -7,11 +8,22 @@ import com.plukowski.itconference.models.Reservation;
 import com.plukowski.itconference.repositories.LectureRepository;
 import com.plukowski.itconference.repositories.ParticipantRepository;
 import com.plukowski.itconference.repositories.ReservationRepository;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.auditing.CurrentDateTimeProvider;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,14 +69,36 @@ public class ReservationService {
             }
             else {
                 lectureRepository.decrementSlots(period, subjectId);
-                reservationRepository.save(new Reservation(lecture.getId(),participant.getId()));
+                Reservation reservation = new Reservation(lecture.getId(),participant.getId());
+                reservationRepository.save(reservation);
                 log.info("Dodano rezerwację");
-                //TODO powiadomienie
+                //"Wysyłanie" powiadomienia
+                sendNotification(participant,reservation, LocalDateTime.now());
+
+
                 return 0;
             }
         }
 
     }
+    public void sendNotification(Participant user, Reservation reservation, LocalDateTime dateTime){
+        Lecture lecture = lectureRepository.findById(reservation.getLectureId()).get();
+        String subject = Schedule.subjects.get(lecture.getSubjectId());
+        String startTime = Schedule.periods.get(lecture.getPeriod()).get(0).format(DateTimeFormatter.ISO_DATE_TIME);
+        String endTime = Schedule.periods.get(lecture.getPeriod()).get(1).format(DateTimeFormatter.ISO_DATE_TIME);
+        String notification = "Date: "+dateTime.format(DateTimeFormatter.ISO_DATE_TIME)+"\nTo: "+user.getEmail()+"\nMessage: Drogi "+user.getLogin()+
+                ",\nDokonałeś rezerwacji na prelekcję o tematyce "+subject+", która odbędzie się "+startTime+" i potrwa do "+endTime+".\nZ poważaniem\nZespół IT-Conference";
+        Path path = Paths.get("notifications/"+user.getLogin()+"-notification.txt");
+        try {
+            if(Files.exists(path)){
+                Files.delete(path);
+            }
+            Files.createFile(path);
+            Files.writeString(path,notification,StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    };
     public int deleteReservation(int subjectId, int period, Participant participant){
         participant = participantRepository.findByLogin(participant.getLogin());
         int result = reservationRepository.deleteByParticipantIdAndLectureId(participant.getId(),
