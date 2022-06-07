@@ -1,10 +1,7 @@
 package com.plukowski.itconference.controllers;
 
 import com.plukowski.itconference.exceptions.ExceptionWithMessage;
-import com.plukowski.itconference.models.Reservation;
 import com.plukowski.itconference.services.LectureService;
-import com.plukowski.itconference.services.ReservationService;
-import org.hibernate.transform.AliasToEntityMapResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

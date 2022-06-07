@@ -3,7 +3,6 @@ package com.plukowski.itconference.services;
 import com.plukowski.itconference.Schedule;
 import com.plukowski.itconference.exceptions.ExceptionWithMessage;
 import com.plukowski.itconference.models.Lecture;
-import com.plukowski.itconference.models.Participant;
 import com.plukowski.itconference.repositories.LectureRepository;
 import com.plukowski.itconference.repositories.ParticipantRepository;
 import com.plukowski.itconference.repositories.ReservationRepository;

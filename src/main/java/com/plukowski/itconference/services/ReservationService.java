@@ -1,7 +1,6 @@
 package com.plukowski.itconference.services;
 
 import com.plukowski.itconference.Schedule;
-import com.plukowski.itconference.controllers.ParticipantController;
 import com.plukowski.itconference.exceptions.ExceptionWithMessage;
 import com.plukowski.itconference.models.Lecture;
 import com.plukowski.itconference.models.Participant;
@@ -9,15 +8,10 @@ import com.plukowski.itconference.models.Reservation;
 import com.plukowski.itconference.repositories.LectureRepository;
 import com.plukowski.itconference.repositories.ParticipantRepository;
 import com.plukowski.itconference.repositories.ReservationRepository;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.auditing.CurrentDateTimeProvider;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Service;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -25,7 +19,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

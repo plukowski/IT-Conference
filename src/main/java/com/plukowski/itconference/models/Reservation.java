@@ -1,6 +1,5 @@
 package com.plukowski.itconference.models;
 
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
