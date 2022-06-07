@@ -1,6 +1,7 @@
 package com.plukowski.itconference.services;
 
 import com.plukowski.itconference.Schedule;
+import com.plukowski.itconference.exceptions.ExceptionWithMessage;
 import com.plukowski.itconference.models.Lecture;
 import com.plukowski.itconference.models.Participant;
 import com.plukowski.itconference.repositories.LectureRepository;
@@ -30,7 +31,7 @@ public class LectureService {
         }
         return result;
     }
-    public String getStats(int type){
+    public String getStats(int type) throws ExceptionWithMessage {
         long allParticipants = participantRepository.count();
         String result = "";
         if(type == 0) {
@@ -53,6 +54,6 @@ public class LectureService {
             return result;
         }
         else
-            return "Nieznany typ statystyk";
+        throw new ExceptionWithMessage("Nieznany typ statystyk");
     }
 }

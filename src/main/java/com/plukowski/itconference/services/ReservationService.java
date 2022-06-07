@@ -2,6 +2,7 @@ package com.plukowski.itconference.services;
 
 import com.plukowski.itconference.Schedule;
 import com.plukowski.itconference.controllers.ParticipantController;
+import com.plukowski.itconference.exceptions.ExceptionWithMessage;
 import com.plukowski.itconference.models.Lecture;
 import com.plukowski.itconference.models.Participant;
 import com.plukowski.itconference.models.Reservation;
@@ -36,36 +37,35 @@ public class ReservationService {
     @Autowired
     LectureRepository lectureRepository;
     private static final Logger log = LoggerFactory.getLogger(ReservationService.class);
-    public long makeReservation(int subjectId, int period, Participant participant){
+    public void makeReservation(int subjectId, int period, Participant participant) throws ExceptionWithMessage {
         if(participantRepository.findByLogin(participant.getLogin()) == null){
             if(participantRepository.findByEmail(participant.getEmail()) == null){
                 participantRepository.save(participant);
                 log.info("Dodano nowego użytkownika");
             }
             else{
-                log.error("Podany adres e-mail jest już zajęty");
-                return -1;
+                String message = "Podany adres e-mail jest już zajęty";
+                throw new ExceptionWithMessage(message);
             }
         }
         participant = participantRepository.findByLogin(participant.getLogin());
         Lecture lecture = lectureRepository.findByPeriodAndSubjectId(period, subjectId);
         if(lecture == null){
-            log.error("Podana prelekcja nie istnieje");
-            return -2;
+            String message = "Podana prelekcja nie istnieje";
+            throw new ExceptionWithMessage(message);
         }
         else{
             boolean done = false;
             List<Reservation> madeReservations = reservationRepository.findByParticipantId(participant.getId());
             for(Reservation reservation: madeReservations){
                 if(lectureRepository.findById(reservation.getLectureId()).get().getPeriod() == lecture.getPeriod()){
-                    log.error("Użytkownik uczestniczy już w prelekcji o tej porze");
-                    return -4;
+                    String message = "Użytkownik uczestniczy już w prelekcji o tej porze";
+                    throw new ExceptionWithMessage(message);
                 }
             }
             if(lecture.getSlots() < 1){
-                //TODO współbieżność
-                log.error("Nie ma już miejsc na podanej prelekcji");
-                return -3;
+                String message = "Nie ma już miejsc na podanej prelekcji";
+                throw new ExceptionWithMessage(message);
             }
             else {
                 lectureRepository.decrementSlots(period, subjectId);
@@ -74,9 +74,6 @@ public class ReservationService {
                 log.info("Dodano rezerwację");
                 //"Wysyłanie" powiadomienia
                 sendNotification(participant,reservation, LocalDateTime.now());
-
-
-                return 0;
             }
         }
 
@@ -99,18 +96,17 @@ public class ReservationService {
             throw new RuntimeException(e);
         }
     };
-    public int deleteReservation(int subjectId, int period, Participant participant){
+    public void deleteReservation(int subjectId, int period, Participant participant) throws ExceptionWithMessage {
         participant = participantRepository.findByLogin(participant.getLogin());
         int result = reservationRepository.deleteByParticipantIdAndLectureId(participant.getId(),
                 lectureRepository.findByPeriodAndSubjectId(period,subjectId).getId());
         if(result > 0){
             log.info("Odwołano rezerwację");
             lectureRepository.incrementSlots(period,subjectId);
-            return result;
         }
         else{
-            log.error("Nie można odwołać rezerwacji");
-            return result;
+            String message = "Nie można odwołać rezerwacji";
+            throw new ExceptionWithMessage(message);
         }
     }
 }
